@@ -15,17 +15,17 @@ const fontMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Electoral Roll Search - Thoothukudi AC 210 | TNSEC',
-  description: 'Search electoral roll for Thoothukudi Assembly Constituency 210. Tamil Nadu State Election Commission voter information system.',
-  keywords: ['electoral roll', 'voter search', 'Thoothukudi', 'AC 210', 'TNSEC', 'Tamil Nadu Election'],
-  authors: [{ name: 'Tamil Nadu State Election Commission' }],
+  title: 'Special Intensive Revision | Thoothukudi District',
+  description: 'Search electoral roll for Thoothukudi Assembly Constituency 210. Special Intensive Revision 2002 data.',
+  keywords: ['electoral roll', 'voter search', 'Thoothukudi', 'AC 210', 'Special Intensive Revision', '2002 Data'],
+  authors: [{ name: 'Thoothukudi District Election Department' }],
   icons: {
     icon: '/favicon.ico',
     apple: '/apple-touch-icon.png',
   },
   openGraph: {
-    title: 'Electoral Roll Search - Thoothukudi AC 210',
-    description: 'Search electoral roll for Thoothukudi Assembly Constituency 210',
+    title: 'Special Intensive Revision | Thoothukudi District',
+    description: 'Search electoral roll for Thoothukudi District - 2002 Data',
     type: 'website',
   },
 }
