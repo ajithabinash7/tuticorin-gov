@@ -1,8 +1,10 @@
 'use client';
 
+import { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@workspace/ui/components/button';
 import { Card, CardContent } from '@workspace/ui/components/card';
+import NeighborVotersModal from './NeighborVotersModal';
 
 interface Voter {
   _id: string;
@@ -61,9 +63,23 @@ interface VoterResultsProps {
     totalPages: number;
   };
   onPageChange: (page: number) => void;
+  constituency: string;
 }
 
-export default function VoterResults({ voters, pagination, onPageChange }: VoterResultsProps) {
+export default function VoterResults({ voters, pagination, onPageChange, constituency }: VoterResultsProps) {
+  const [selectedVoter, setSelectedVoter] = useState<Voter | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleVoterClick = (voter: Voter) => {
+    setSelectedVoter(voter);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedVoter(null);
+  };
+
   if (voters.length === 0) {
     return (
       <div className="text-center py-12 text-gray-500">
@@ -85,7 +101,11 @@ export default function VoterResults({ voters, pagination, onPageChange }: Voter
       {/* Mobile Card View */}
       <div className="block lg:hidden space-y-3">
         {voters.map((voter) => (
-          <Card key={voter._id} className="overflow-hidden">
+          <Card
+            key={voter._id}
+            className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow"
+            onClick={() => handleVoterClick(voter)}
+          >
             <CardContent className="p-4">
               <div className="space-y-2">
                 <div className="flex-1">
@@ -157,7 +177,11 @@ export default function VoterResults({ voters, pagination, onPageChange }: Voter
           </thead>
           <tbody>
             {voters.map((voter) => (
-              <tr key={voter._id} className="hover:bg-gray-50">
+              <tr
+                key={voter._id}
+                className="hover:bg-gray-50 cursor-pointer"
+                onClick={() => handleVoterClick(voter)}
+              >
                 <td className="border border-gray-300 px-4 py-2 text-sm">
                   {voter.slNoInPart}
                 </td>
@@ -201,6 +225,16 @@ export default function VoterResults({ voters, pagination, onPageChange }: Voter
             <ChevronRight className="h-4 w-4" />
           </Button>
         </div>
+      )}
+
+      {/* Neighbor Voters Modal */}
+      {selectedVoter && (
+        <NeighborVotersModal
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          selectedVoter={selectedVoter}
+          constituency={constituency}
+        />
       )}
     </div>
   );

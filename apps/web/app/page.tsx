@@ -280,6 +280,7 @@ function PageContent() {
             voters={voters}
             pagination={pagination}
             onPageChange={handlePageChange}
+            constituency={selectedTsc}
           />
         )}
 
