@@ -74,6 +74,7 @@ export default function NeighborVotersModal({
     if (isOpen && selectedVoter) {
       fetchNeighbors();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen, selectedVoter]);
 
   const fetchNeighbors = async () => {
