@@ -71,7 +71,7 @@ export default function SearchForm({ onSearch, onReset, isLoading, constituency 
           id="name"
           value={name}
           onChange={setName}
-          placeholder="Type name in English..."
+          placeholder="Enter name in tamil"
           label="Elector Name / வாக்காளர் பெயர்"
           className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
@@ -80,7 +80,7 @@ export default function SearchForm({ onSearch, onReset, isLoading, constituency 
           id="relation-name-mobile-primary"
           value={relationName}
           onChange={setRelationName}
-          placeholder="Type relation name in English..."
+          placeholder="Enter name in tamil"
           label="Relation Name / உறவினர் பெயர்"
           className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
@@ -104,7 +104,7 @@ export default function SearchForm({ onSearch, onReset, isLoading, constituency 
 
         <div>
           <label htmlFor="current-part-no-mobile-main" className="block text-xs font-medium mb-1.5">
-            Current Polling Station (2025) / தற்போதைய வாக்குச் சாவடி (2025)
+            Current Polling Station (2025) / வாக்குச்சாவடி எண் 2025
           </label>
           <CurrentPollingStationSelect
             id="current-part-no-mobile-main"
@@ -123,7 +123,7 @@ export default function SearchForm({ onSearch, onReset, isLoading, constituency 
             id="name-desktop"
             value={name}
             onChange={setName}
-            placeholder="Type name in English..."
+            placeholder="Enter name in tamil"
             label="Elector Name / வாக்காளர் பெயர்"
             className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
@@ -134,7 +134,7 @@ export default function SearchForm({ onSearch, onReset, isLoading, constituency 
             id="relation-name-desktop"
             value={relationName}
             onChange={setRelationName}
-            placeholder="Type relation name in English..."
+            placeholder="Enter name in tamil"
             label="Relation Name / உறவினர் பெயர்"
             className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
@@ -162,7 +162,7 @@ export default function SearchForm({ onSearch, onReset, isLoading, constituency 
       <div className="hidden lg:flex lg:gap-3 lg:items-start">
         <div className="flex-1">
           <label htmlFor="current-part-no-desktop-main" className="block text-xs font-medium mb-1.5">
-            Current Polling Station (2025) / தற்போதைய வாக்குச் சாவடி (2025)
+            Current Polling Station (2025) / வாக்குச்சாவடி எண் 2025
           </label>
           <CurrentPollingStationSelect
             id="current-part-no-desktop-main"
