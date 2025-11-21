@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import LegacyPart2025 from '@/lib/models/LegacyPart2025';
 import { withApiProtection } from '@/lib/api-middleware';
 
-async function handleGET(request: NextRequest) {
+async function handleGET() {
   try {
     await connectDB();
 

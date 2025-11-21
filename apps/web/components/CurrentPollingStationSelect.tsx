@@ -17,7 +17,7 @@ interface PollingStation2025 {
 interface CurrentPollingStationSelectProps {
   value: string;
   onChange: (value: string) => void;
-  constituency: string;
+  constituency?: string; // Optional, not used but kept for API compatibility
   disabled?: boolean;
   id?: string;
 }
@@ -25,7 +25,6 @@ interface CurrentPollingStationSelectProps {
 export default function CurrentPollingStationSelect({
   value,
   onChange,
-  constituency,
   disabled = false,
   id,
 }: CurrentPollingStationSelectProps) {

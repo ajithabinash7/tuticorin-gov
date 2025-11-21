@@ -87,35 +87,40 @@ async function handleGET(request: NextRequest) {
       const acNo2002 = parseInt(tsc.replace('AC', ''));
 
       // Parse currentPartNo format: "acNo2025:partNo2025"
-      const [acNo2025Str, partNo2025Str] = currentPartNo.split(':');
-      const acNo2025 = parseInt(acNo2025Str);
-      const partNo2025 = parseInt(partNo2025Str);
+      const parts = currentPartNo.split(':');
+      const acNo2025Str = parts[0];
+      const partNo2025Str = parts[1];
 
-      console.log('[DEBUG] Current polling station filter:', {
-        currentPartNo,
-        acNo2002,
-        acNo2025,
-        partNo2025
-      });
+      if (acNo2025Str && partNo2025Str) {
+        const acNo2025 = parseInt(acNo2025Str);
+        const partNo2025 = parseInt(partNo2025Str);
 
-      // Find all 2002 parts that map to this 2025 part
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const mappings = await (Map20252002Part as any).find({
-        acNo2002: acNo2002,
-        acNo2025: acNo2025,
-        partNo2025: partNo2025,
-      }).select({ partNo2002: 1 }).lean().exec();
+        console.log('[DEBUG] Current polling station filter:', {
+          currentPartNo,
+          acNo2002,
+          acNo2025,
+          partNo2025
+        });
 
-      console.log('[DEBUG] Found mappings:', mappings);
+        // Find all 2002 parts that map to this 2025 part
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const mappings = await (Map20252002Part as any).find({
+          acNo2002: acNo2002,
+          acNo2025: acNo2025,
+          partNo2025: partNo2025,
+        }).select({ partNo2002: 1 }).lean().exec();
 
-      if (mappings && mappings.length > 0) {
-        const partNo2002s = mappings.map((m: any) => m.partNo2002);
-        console.log('[DEBUG] Searching in parts:', partNo2002s);
-        andConditions.push({ partNo: { $in: partNo2002s } });
-      } else {
-        console.log('[DEBUG] No mappings found, returning empty results');
-        // No mapping found, return no results
-        andConditions.push({ partNo: -1 }); // Impossible condition
+        console.log('[DEBUG] Found mappings:', mappings);
+
+        if (mappings && mappings.length > 0) {
+          const partNo2002s = mappings.map((m: any) => m.partNo2002);
+          console.log('[DEBUG] Searching in parts:', partNo2002s);
+          andConditions.push({ partNo: { $in: partNo2002s } });
+        } else {
+          console.log('[DEBUG] No mappings found, returning empty results');
+          // No mapping found, return no results
+          andConditions.push({ partNo: -1 }); // Impossible condition
+        }
       }
     }
 
