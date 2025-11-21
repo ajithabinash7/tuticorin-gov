@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Button } from '@workspace/ui/components/button';
 import { Search, Loader2, Filter, X } from 'lucide-react';
 import PollingStationSelect from './PollingStationSelect';
+import CurrentPollingStationSelect from './CurrentPollingStationSelect';
 import TransliterateInput from './TransliterateInput';
 
 interface SearchFormProps {
@@ -17,6 +18,7 @@ export interface SearchParams {
   name?: string;
   relationName?: string;
   partNo?: string;
+  currentPartNo?: string;
   sex?: string;
 }
 
@@ -24,6 +26,7 @@ export default function SearchForm({ onSearch, onReset, isLoading, constituency 
   const [name, setName] = useState('');
   const [relationName, setRelationName] = useState('');
   const [partNo, setPartNo] = useState('');
+  const [currentPartNo, setCurrentPartNo] = useState('');
   const [sex, setSex] = useState('');
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
 
@@ -39,6 +42,7 @@ export default function SearchForm({ onSearch, onReset, isLoading, constituency 
       name: name.trim() || undefined,
       relationName: relationName.trim() || undefined,
       partNo: partNo.trim() || undefined,
+      currentPartNo: currentPartNo.trim() || undefined,
       sex: sex.trim() || undefined,
     });
   };
@@ -47,6 +51,7 @@ export default function SearchForm({ onSearch, onReset, isLoading, constituency 
     setName('');
     setRelationName('');
     setPartNo('');
+    setCurrentPartNo('');
     setSex('');
     setShowAdvancedFilters(false);
 
@@ -96,9 +101,22 @@ export default function SearchForm({ onSearch, onReset, isLoading, constituency 
             <option value="O">Other</option>
           </select>
         </div>
+
+        <div>
+          <label htmlFor="current-part-no-mobile-main" className="block text-xs font-medium mb-1.5">
+            Current Polling Station (2025) / தற்போதைய வாக்குச் சாவடி (2025)
+          </label>
+          <CurrentPollingStationSelect
+            id="current-part-no-mobile-main"
+            value={currentPartNo}
+            onChange={setCurrentPartNo}
+            constituency={constituency}
+            disabled={isLoading}
+          />
+        </div>
       </div>
 
-      {/* Desktop: All filters, buttons in one row */}
+      {/* Desktop: First row - Name, Relation Name, Gender */}
       <div className="hidden lg:flex lg:gap-3 lg:items-start">
         <div className="flex-1">
           <TransliterateInput
@@ -138,8 +156,24 @@ export default function SearchForm({ onSearch, onReset, isLoading, constituency 
             <option value="O">Other</option>
           </select>
         </div>
+      </div>
 
-        <div className="flex gap-2 pt-6">
+      {/* Desktop: Second row - Current Polling Station and Action Buttons */}
+      <div className="hidden lg:flex lg:gap-3 lg:items-start">
+        <div className="flex-1">
+          <label htmlFor="current-part-no-desktop-main" className="block text-xs font-medium mb-1.5">
+            Current Polling Station (2025) / தற்போதைய வாக்குச் சாவடி (2025)
+          </label>
+          <CurrentPollingStationSelect
+            id="current-part-no-desktop-main"
+            value={currentPartNo}
+            onChange={setCurrentPartNo}
+            constituency={constituency}
+            disabled={isLoading}
+          />
+        </div>
+
+        <div className="flex-[2] flex gap-2 pt-6">
           <Button
             type="button"
             variant="outline"
@@ -184,7 +218,7 @@ export default function SearchForm({ onSearch, onReset, isLoading, constituency 
       <div className={`hidden lg:grid lg:grid-cols-1 lg:gap-3 ${showAdvancedFilters ? 'lg:grid' : 'lg:hidden'}`}>
         <div>
           <label htmlFor="part-no-desktop" className="block text-xs font-medium mb-1.5">
-            Polling Station / வாக்குச் சாவடி
+            Polling Station (2002) / வாக்குச் சாவடி (2002)
           </label>
           <PollingStationSelect
             id="part-no-desktop"
@@ -240,7 +274,7 @@ export default function SearchForm({ onSearch, onReset, isLoading, constituency 
       <div className={`space-y-3 lg:hidden ${showAdvancedFilters ? 'block' : 'hidden'}`}>
         <div>
           <label htmlFor="part-no-mobile" className="block text-xs font-medium mb-1.5">
-            Polling Station / வாக்குச் சாவடி
+            Polling Station (2002) / வாக்குச் சாவடி (2002)
           </label>
           <PollingStationSelect
             id="part-no-mobile"

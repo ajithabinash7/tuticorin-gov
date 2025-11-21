@@ -8,6 +8,7 @@ import AC224 from '@/lib/models/AC224';
 import AC225 from '@/lib/models/AC225';
 import AC226 from '@/lib/models/AC226';
 import AC227 from '@/lib/models/AC227';
+import Map20252002Part from '@/lib/models/Map20252002Part';
 import { Model } from 'mongoose';
 import { withApiProtection } from '@/lib/api-middleware';
 
@@ -33,6 +34,7 @@ async function handleGET(request: NextRequest) {
     const name = searchParams.get('name') || '';
     const relationName = searchParams.get('relationName') || '';
     const partNo = searchParams.get('partNo');
+    const currentPartNo = searchParams.get('currentPartNo');
     const sex = searchParams.get('sex');
     const limit = parseInt(searchParams.get('limit') || '200');
     const page = parseInt(searchParams.get('page') || '1');
@@ -79,6 +81,44 @@ async function handleGET(request: NextRequest) {
     if (partNo) {
       andConditions.push({ partNo: parseInt(partNo) });
     }
+
+    // Handle currentPartNo filter - map 2025 part to 2002 parts
+    if (currentPartNo) {
+      const acNo2002 = parseInt(tsc.replace('AC', ''));
+
+      // Parse currentPartNo format: "acNo2025:partNo2025"
+      const [acNo2025Str, partNo2025Str] = currentPartNo.split(':');
+      const acNo2025 = parseInt(acNo2025Str);
+      const partNo2025 = parseInt(partNo2025Str);
+
+      console.log('[DEBUG] Current polling station filter:', {
+        currentPartNo,
+        acNo2002,
+        acNo2025,
+        partNo2025
+      });
+
+      // Find all 2002 parts that map to this 2025 part
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const mappings = await (Map20252002Part as any).find({
+        acNo2002: acNo2002,
+        acNo2025: acNo2025,
+        partNo2025: partNo2025,
+      }).select({ partNo2002: 1 }).lean().exec();
+
+      console.log('[DEBUG] Found mappings:', mappings);
+
+      if (mappings && mappings.length > 0) {
+        const partNo2002s = mappings.map((m: any) => m.partNo2002);
+        console.log('[DEBUG] Searching in parts:', partNo2002s);
+        andConditions.push({ partNo: { $in: partNo2002s } });
+      } else {
+        console.log('[DEBUG] No mappings found, returning empty results');
+        // No mapping found, return no results
+        andConditions.push({ partNo: -1 }); // Impossible condition
+      }
+    }
+
     if (sex) {
       andConditions.push({ sex: sex.toUpperCase() });
     }

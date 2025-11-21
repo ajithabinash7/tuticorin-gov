@@ -119,12 +119,12 @@ export default function VoterResults({ voters, pagination, onPageChange, constit
 
                 <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm pt-2 border-t">
                   <div>
-                    <span className="text-gray-500">Serial No:</span>
-                    <span className="ml-1 font-medium">{voter.slNoInPart}</span>
-                  </div>
-                  <div>
                     <span className="text-gray-500">Part:</span>
                     <span className="ml-1 font-medium">{voter.partNo}</span>
+                  </div>
+                  <div>
+                    <span className="text-gray-500">Serial No:</span>
+                    <span className="ml-1 font-medium">{voter.slNoInPart}</span>
                   </div>
                   <div>
                     <span className="text-gray-500">Age:</span>
@@ -153,6 +153,9 @@ export default function VoterResults({ voters, pagination, onPageChange, constit
           <thead>
             <tr className="bg-gray-100">
               <th className="border border-gray-300 px-4 py-2 text-left text-sm font-semibold">
+                Part No / பாகம் எண்
+              </th>
+              <th className="border border-gray-300 px-4 py-2 text-left text-sm font-semibold">
                 Serial No / வரிசை எண்
               </th>
               <th className="border border-gray-300 px-4 py-2 text-left text-sm font-semibold">
@@ -168,9 +171,6 @@ export default function VoterResults({ voters, pagination, onPageChange, constit
                 Gender / பாலினம்
               </th>
               <th className="border border-gray-300 px-4 py-2 text-left text-sm font-semibold">
-                Part No / பாகம் எண்
-              </th>
-              <th className="border border-gray-300 px-4 py-2 text-left text-sm font-semibold">
                 Polling Station Name / வாக்குச்சாவடி பெயர்
               </th>
             </tr>
@@ -182,6 +182,7 @@ export default function VoterResults({ voters, pagination, onPageChange, constit
                 className="hover:bg-gray-50 cursor-pointer"
                 onClick={() => handleVoterClick(voter)}
               >
+                <td className="border border-gray-300 px-4 py-2 text-sm">{voter.partNo}</td>
                 <td className="border border-gray-300 px-4 py-2 text-sm">
                   {voter.slNoInPart}
                 </td>
@@ -193,7 +194,6 @@ export default function VoterResults({ voters, pagination, onPageChange, constit
                 </td>
                 <td className="border border-gray-300 px-4 py-2 text-sm">{voter.age || '-'}</td>
                 <td className="border border-gray-300 px-4 py-2 text-sm">{getGenderName(voter.sex)}</td>
-                <td className="border border-gray-300 px-4 py-2 text-sm">{voter.partNo}</td>
                 <td className="border border-gray-300 px-4 py-2 text-sm">{voter.psName || '-'}</td>
               </tr>
             ))}

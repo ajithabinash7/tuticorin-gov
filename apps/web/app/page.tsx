@@ -116,6 +116,7 @@ function PageContent() {
       if (params.name) searchParams.append('name', params.name);
       if (params.relationName) searchParams.append('relationName', params.relationName);
       if (params.partNo) searchParams.append('partNo', params.partNo);
+      if (params.currentPartNo) searchParams.append('currentPartNo', params.currentPartNo);
       if (params.sex) searchParams.append('sex', params.sex);
 
       const response = await signedFetch(`/api/voters/search?${searchParams.toString()}`);
